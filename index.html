@@ -1,0 +1,785 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>肌力訓練 LLM Wiki</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+</head>
+<body>
+<style>
+:root{--bg:#f6f7f4;--panel:#ffffff;--fg:#1d2733;--muted:#5d6b7a;--accent:#0b7a6f;--warn:#a8560b;--line:#dbe0e3;--code:#eef1f0}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#121a22;--panel:#1a2530;--fg:#e6ecf1;--muted:#9aa9b8;--accent:#3ed3c1;--warn:#f0b04f;--line:#2c3a47;--code:#16212b;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121a22;--panel:#1a2530;--fg:#e6ecf1;--muted:#9aa9b8;--accent:#3ed3c1;--warn:#f0b04f;--line:#2c3a47;--code:#16212b;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.75 "Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;padding-block:0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:230px minmax(0,1fr);gap:28px;padding-block:20px}
+nav{position:sticky;top:12px;align-self:start;max-height:calc(100vh - 24px);overflow:auto;font-size:14px}
+nav .brand{font-weight:700;margin:0 0 10px;font-size:15px}
+nav .gh{margin:14px 0 4px;color:var(--muted);font-size:12px;letter-spacing:.1em}
+nav a{display:block;padding:3px 8px;border-radius:6px;color:var(--fg);text-decoration:none;line-height:1.5}
+nav a:hover{background:var(--code)}
+nav a.on{background:var(--accent);color:var(--bg);font-weight:600}
+main{min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:28px 32px}
+h1{font-size:clamp(26px,4vw,36px);line-height:1.25;margin:0 0 12px}
+h2{font-size:22px;margin:28px 0 10px;line-height:1.3}
+h3{font-size:17px;margin:20px 0 6px}
+.lead{font-size:18px;color:var(--muted)}
+.meta{color:var(--muted);font-size:13px;margin:0 0 6px}
+.note{border-left:4px solid var(--warn);padding:8px 14px;background:var(--code);border-radius:4px;font-size:15px}
+.cap{color:var(--muted);font-size:13px}
+li{margin:4px 0}
+a{color:var(--accent)}
+code{background:var(--code);padding:1px 5px;border-radius:4px;font-size:.92em}
+pre{background:var(--code);padding:12px 14px;border-radius:8px;overflow-x:auto}
+pre code{background:none;padding:0}
+.scroll,.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14.5px;min-width:560px}
+th,td{border:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
+th{background:var(--code)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:18px 0}
+.card{display:flex;flex-direction:column;gap:4px;border:1px solid var(--line);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);background:var(--bg)}
+.card b{color:var(--accent)} .card span{font-size:14px;color:var(--muted)}
+.card:hover{border-color:var(--accent)}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+details.menu{display:none}
+@media (max-width:860px){
+  .wrap{grid-template-columns:minmax(0,1fr);gap:12px}
+  nav{position:static;max-height:none}
+  nav .full{display:none}
+  details.menu{display:block;border:1px solid var(--line);border-radius:8px;padding:8px 12px;background:var(--panel)}
+  details.menu summary{cursor:pointer;font-weight:600}
+  main{padding:20px 16px}
+}
+</style>
+<div class="wrap">
+<nav aria-label="目錄">
+  <p class="brand"><a href="#home" style="text-decoration:none">肌力訓練 LLM Wiki</a></p>
+  <div class="full"><p class="gh">開始</p><a href="#home" data-p="home">作業總覽</a><a href="#p-index" data-p="p-index">索引</a><a href="#p-schema" data-p="p-schema">規則檔 SCHEMA</a><a href="#p-discussion" data-p="p-discussion">生成前的討論</a><a href="#p-log" data-p="p-log">Wiki log</a><p class="gh">Wiki 條目</p><a href="#w-beginner-week-example" data-p="w-beginner-week-example">新手一週範例</a><a href="#w-getting-started-safely" data-p="w-getting-started-safely">第一次怎麼安全開始</a><a href="#w-progressive-overload" data-p="w-progressive-overload">漸進超負荷</a><a href="#w-protein" data-p="w-protein">蛋白質與肌肉</a><a href="#w-rest-sleep-recovery" data-p="w-rest-sleep-recovery">休息、睡眠與恢復</a><a href="#w-sets-reps-rest" data-p="w-sets-reps-rest">重量、次數與組數</a><a href="#w-source-conflicts" data-p="w-source-conflicts">來源差異與可信度</a><a href="#w-strength-basics" data-p="w-strength-basics">肌力訓練是什麼</a><a href="#w-weekly-guidelines" data-p="w-weekly-guidelines">每週要做多少</a><p class="gh">原始資料</p><a href="#r-r01" data-p="r-r01">r01 WHO 2020 身體活動與久坐行為指引</a><a href="#r-r02" data-p="r-r02">r02 Mayo Clinic:Strength training: Get stronger, leaner, healthier</a><a href="#r-r03" data-p="r-r03">r03 Healthdirect Australia:Strength training for beginners</a><a href="#r-r04" data-p="r-r04">r04 Cleveland Clinic:Your Simple Guide to Progressive Overload Training</a><a href="#r-r05" data-p="r-r05">r05 NASM:Progressive Overload Explained</a><a href="#r-r06" data-p="r-r06">r06 Morton et al. 2018:蛋白質補充與阻力訓練的系統性回顧與統合分析</a><a href="#r-r07" data-p="r-r07">r07 休息日與恢復(NASM 部落格 + 科羅拉多大學博爾德分校健康中心)</a><a href="#r-r08" data-p="r-r08">r08 睡眠與肌肉(Peloton 部落格、Rep Fitness 部落格;大眾來源)</a><p class="gh">流程與反思</p><a href="#p-loop" data-p="p-loop">Loop / graph 設計</a><a href="#p-runlog" data-p="p-runlog">執行與檢查紀錄</a><a href="#p-reflection" data-p="p-reflection">反思</a></div>
+  <details class="menu"><summary>目錄</summary><p class="gh">開始</p><a href="#home" data-p="home">作業總覽</a><a href="#p-index" data-p="p-index">索引</a><a href="#p-schema" data-p="p-schema">規則檔 SCHEMA</a><a href="#p-discussion" data-p="p-discussion">生成前的討論</a><a href="#p-log" data-p="p-log">Wiki log</a><p class="gh">Wiki 條目</p><a href="#w-beginner-week-example" data-p="w-beginner-week-example">新手一週範例</a><a href="#w-getting-started-safely" data-p="w-getting-started-safely">第一次怎麼安全開始</a><a href="#w-progressive-overload" data-p="w-progressive-overload">漸進超負荷</a><a href="#w-protein" data-p="w-protein">蛋白質與肌肉</a><a href="#w-rest-sleep-recovery" data-p="w-rest-sleep-recovery">休息、睡眠與恢復</a><a href="#w-sets-reps-rest" data-p="w-sets-reps-rest">重量、次數與組數</a><a href="#w-source-conflicts" data-p="w-source-conflicts">來源差異與可信度</a><a href="#w-strength-basics" data-p="w-strength-basics">肌力訓練是什麼</a><a href="#w-weekly-guidelines" data-p="w-weekly-guidelines">每週要做多少</a><p class="gh">原始資料</p><a href="#r-r01" data-p="r-r01">r01 WHO 2020 身體活動與久坐行為指引</a><a href="#r-r02" data-p="r-r02">r02 Mayo Clinic:Strength training: Get stronger, leaner, healthier</a><a href="#r-r03" data-p="r-r03">r03 Healthdirect Australia:Strength training for beginners</a><a href="#r-r04" data-p="r-r04">r04 Cleveland Clinic:Your Simple Guide to Progressive Overload Training</a><a href="#r-r05" data-p="r-r05">r05 NASM:Progressive Overload Explained</a><a href="#r-r06" data-p="r-r06">r06 Morton et al. 2018:蛋白質補充與阻力訓練的系統性回顧與統合分析</a><a href="#r-r07" data-p="r-r07">r07 休息日與恢復(NASM 部落格 + 科羅拉多大學博爾德分校健康中心)</a><a href="#r-r08" data-p="r-r08">r08 睡眠與肌肉(Peloton 部落格、Rep Fitness 部落格;大眾來源)</a><p class="gh">流程與反思</p><a href="#p-loop" data-p="p-loop">Loop / graph 設計</a><a href="#p-runlog" data-p="p-runlog">執行與檢查紀錄</a><a href="#p-reflection" data-p="p-reflection">反思</a></details>
+</nav>
+<main id="main"><article id="home" hidden>
+<h1>新手肌力訓練 LLM Wiki</h1>
+<p class="lead">主題是健身,範圍收斂在「新手肌力訓練入門」。8 篇原始資料、9 個條目,再由 Wiki 產生一份 11 頁的教學 HTML 簡報。</p>
+<div class="cards">
+<a class="card" href="slides/index.html" target="_blank" rel="noopener"><b>教學 HTML 簡報</b><span>11 頁,每頁標註對應條目與來源。新分頁開啟。</span></a>
+<a class="card" href="#p-index"><b>Wiki 索引</b><span>9 個條目與 8 篇原始資料</span></a>
+<a class="card" href="#p-loop"><b>Loop / graph 設計</b><span>9 個節點、2 個檢查點、退回路徑</span></a>
+<a class="card" href="#p-runlog"><b>執行與檢查紀錄</b><span>檢查真的失敗過 2 項,另有 1 項靠人工覆核抓到</span></a>
+<a class="card" href="#p-reflection"><b>反思</b><span>哪個節點最常出錯、檢查移到哪裡</span></a>
+</div>
+<p class="note">本站為課程作業的通識教學內容,不是醫療建議。有疾病、疼痛或高齡等情況,請先諮詢醫療專業人員。</p>
+</article><article id="p-index" hidden><h1>新手肌力訓練入門 LLM Wiki:索引</h1>
+<p>主題:健身(新手肌力訓練)。8 篇原始資料、9 個條目。</p>
+<h2>條目</h2>
+<ul>
+<li><a href="#w-strength-basics">strength-basics</a>:肌力訓練是什麼</li>
+<li><a href="#w-weekly-guidelines">weekly-guidelines</a>:每週要做多少</li>
+<li><a href="#w-getting-started-safely">getting-started-safely</a>:第一次怎麼安全開始</li>
+<li><a href="#w-sets-reps-rest">sets-reps-rest</a>:重量、次數與組數</li>
+<li><a href="#w-progressive-overload">progressive-overload</a>:漸進超負荷</li>
+<li><a href="#w-protein">protein</a>:蛋白質與肌肉</li>
+<li><a href="#w-rest-sleep-recovery">rest-sleep-recovery</a>:休息、睡眠與恢復</li>
+<li><a href="#w-beginner-week-example">beginner-week-example</a>:新手一週範例</li>
+<li><a href="#w-source-conflicts">source-conflicts</a>:來源差異與可信度</li>
+</ul>
+<h2>原始資料</h2>
+<ul>
+<li>r01 WHO 2020 身體活動指引(高)</li>
+<li>r02 Mayo Clinic 肌力訓練(高)</li>
+<li>r03 Healthdirect Australia 新手肌力訓練(高)</li>
+<li>r04 Cleveland Clinic 漸進超負荷(高)</li>
+<li>r05 NASM 漸進超負荷(中)</li>
+<li>r06 Morton 2018 蛋白質統合分析(高,有利益揭露)</li>
+<li>r07 休息日(NASM + 科羅拉多大學)(中)</li>
+<li>r08 睡眠與肌肉(商業部落格)(低到中)</li>
+</ul></article><article id="p-schema" hidden><h1>Wiki 規則檔(SCHEMA)</h1>
+<p>主題:<strong>新手肌力訓練入門(健身)</strong>
+目標讀者:完全沒碰過健身的人
+建立日期:2026-11-21</p>
+<h2>資料夾結構</h2>
+<ul>
+<li><code>raw/</code>:原始資料筆記。每篇一個檔,內容是「改寫摘要 + 來源網址 + 可信度評估」,不貼原文。</li>
+<li><code>wiki/</code>:整理後的條目。每頁有 frontmatter(<code>title</code>、<code>sources</code>、<code>updated</code>)。</li>
+<li><code>slides/</code>:由 Wiki 產生的教學簡報。</li>
+<li><code>index.md</code>:條目總覽。<code>log.md</code>:每次 ingest / 修改的紀錄。</li>
+<li><code>check.py</code>:自動檢查腳本(loop 中的檢查節點)。</li>
+</ul>
+<h2>Ingest 規則(先討論、後生成)</h2>
+<ol>
+<li><strong>取得</strong>:搜尋並讀取來源,優先官方機構、醫療機構、系統性回顧。</li>
+<li><strong>寫 raw 筆記</strong>:只寫改寫後的重點,標註網址、存取日期、可信度(高/中/低)與限制。</li>
+<li><strong>討論</strong>:在生成條目前,先列出「要建哪些條目、每條目用哪些來源、哪些來源之間有衝突」,確認後才生成。</li>
+<li><strong>生成條目</strong>:每個事實句尾標註來源編號,格式 <code>〔r02〕</code>。</li>
+<li><strong>衝突不抹平</strong>:兩個來源建議不同時,兩邊都寫,並註明差異,放進 <code>wiki/source-conflicts.md</code>。</li>
+</ol>
+<h2>條目格式</h2>
+<pre><code>---
+title: 條目名稱
+sources: [r01, r02]
+updated: 2026-11-21
+---
+# 標題
+## 重點
+- 事實句。〔r01〕
+## 相關頁面
+- [其他條目](#w-其他條目)
+</code></pre>
+<h2>檢查規則(check.py 會自動跑)</h2>
+<table>
+<thead>
+<tr>
+<th>代號</th>
+<th>檢查</th>
+<th>失敗時回到</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>L1</td>
+<td>frontmatter 的每個 source 都對應 <code>raw/</code> 內存在的檔案</td>
+<td>生成條目</td>
+</tr>
+<tr>
+<td>L2</td>
+<td>「重點」下的每個 bullet 都有 <code>〔rNN〕</code>,且 rNN 列在該頁 sources 裡</td>
+<td>生成條目</td>
+</tr>
+<tr>
+<td>L3</td>
+<td><code>[連結](#w-連結)</code> 都指到存在的條目</td>
+<td>生成條目</td>
+</tr>
+<tr>
+<td>S1</td>
+<td>簡報每一頁都有 <code>data-wiki</code>,指到存在的條目</td>
+<td>生成簡報</td>
+</tr>
+<tr>
+<td>S2</td>
+<td>簡報頁面上出現的每個數字,都要出現在該頁引用的條目裡</td>
+<td>生成簡報(若條目本身有誤則回到生成條目)</td>
+</tr>
+</tbody>
+</table>
+<h2>語氣與安全原則</h2>
+<ul>
+<li>這是通識教學,不是醫療建議。有慢性病、疼痛、高齡等情況,簡報要提醒先諮詢醫療專業人員。</li>
+<li>營養數字只寫研究中的 g/kg 範圍,並註明適用對象與研究限制。</li>
+</ul></article><article id="p-discussion" hidden><h1>生成前的討論紀錄(先討論、後生成)</h1>
+<p>日期:2026-11-21。在 ingest 完 8 篇 raw 後、生成條目前,先定下面的大綱。</p>
+<h2>預計條目與來源</h2>
+<table>
+<thead>
+<tr>
+<th>條目</th>
+<th>回答的問題</th>
+<th>主要來源</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>strength-basics</td>
+<td>肌力訓練是什麼?為什麼做?</td>
+<td>r02, r03, r01</td>
+</tr>
+<tr>
+<td>weekly-guidelines</td>
+<td>每週要做多少?</td>
+<td>r01, r02, r03</td>
+</tr>
+<tr>
+<td>getting-started-safely</td>
+<td>第一次怎麼安全開始?</td>
+<td>r02, r03, r04</td>
+</tr>
+<tr>
+<td>sets-reps-rest</td>
+<td>重量、次數、組數怎麼選?</td>
+<td>r02, r04</td>
+</tr>
+<tr>
+<td>progressive-overload</td>
+<td>怎麼持續進步?</td>
+<td>r04, r05</td>
+</tr>
+<tr>
+<td>protein</td>
+<td>要吃多少蛋白質?</td>
+<td>r06</td>
+</tr>
+<tr>
+<td>rest-sleep-recovery</td>
+<td>休息與睡眠為什麼重要?</td>
+<td>r07, r08, r05, r02</td>
+</tr>
+<tr>
+<td>beginner-week-example</td>
+<td>一週可以怎麼排?(整合範例)</td>
+<td>以上整合</td>
+</tr>
+<tr>
+<td>source-conflicts</td>
+<td>來源之間哪裡不一致、可信度如何?</td>
+<td>全部</td>
+</tr>
+</tbody>
+</table>
+<h2>已發現、需要在條目中明講的衝突</h2>
+<ol>
+<li><strong>組數</strong>:Mayo/HHS 說每個動作 1 組即可有益(r02);Cleveland 的進階建議是每動作 3 組、6–15 下(r04)。處理:新手可從 1 組開始,想更進一步再參考 3 組;兩者目標不同(健康基本盤 vs 持續進步)。</li>
+<li><strong>恢復時間</strong>:Mayo 說同肌群之間休息一整天(r02);NASM 說 48–72 小時(r07)。處理:兩者並列,以「不要連兩天練同一肌群」為最低共識。</li>
+<li><strong>蛋白質</strong>:RDA 0.8 g/kg 與研究中約 1.6 g/kg 的平台點差距大(r06)。處理:註明研究對象是做阻力訓練的健康成人、排除減重期、老年資料少;作者與乳業有利益關係;不給個人化建議。</li>
+<li><strong>來源品質</strong>:r05、r07、r08 為中低可信度,只用於觀念層面,不引用其中精確數字(r07 的 48–72 小時與 2–3 天例外,會標明為「教練/校園衛教建議」)。</li>
+</ol>
+<h2>不做的事</h2>
+<ul>
+<li>不給減重、飲食熱量或個人化飲食計畫。</li>
+<li>不給醫療診斷;有疾病或疼痛者提醒先諮詢專業人員。</li>
+</ul></article><article id="p-log" hidden><h1>Wiki log</h1>
+<h2>2026-11-21</h2>
+<ul>
+<li>ingest:r01 WHO 2020 指引(摘錄)</li>
+<li>ingest:r02 Mayo Clinic 肌力訓練(全文)</li>
+<li>ingest:r03 Healthdirect Australia(摘錄)</li>
+<li>ingest:r04 Cleveland Clinic 漸進超負荷(全文)</li>
+<li>ingest:r05 NASM 漸進超負荷(摘錄)</li>
+<li>ingest:r06 Morton 2018 蛋白質統合分析(前 100,000 / 約 124,668 字)</li>
+<li>ingest:r07 休息日 NASM + 科羅拉多大學(摘錄)</li>
+<li>ingest:r08 睡眠與肌肉,商業部落格(摘錄)</li>
+<li>discuss:DISCUSSION.md,列 9 個條目、4 個衝突</li>
+<li>generate:9 個條目;<code>check.py wiki</code> 通過</li>
+<li>generate:簡報 11 頁;<code>check.py slides</code> 第 1 次 2 項失敗(標籤編號),修正後通過</li>
+<li>fix:weekly-guidelines 與簡報第 3 頁,把「最低門檻,不是上限」改回來源原意「2 天以上」</li>
+</ul></article><article id="w-beginner-week-example" hidden><p class="meta">來源:r01, r02, r04, r07</p><h1>新手一週範例</h1>
+<p>這頁是把其他條目整合成「教學範例」,不是個人化處方。</p>
+<h2>重點</h2>
+<ul>
+<li>頻率:每週 2 次全身肌力訓練,每次約 20–30 分鐘,符合「每週 2 天以上、涵蓋所有主要肌群」的最低門檻。〔r01〕</li>
+<li>每次先快走幾分鐘暖身。〔r02〕</li>
+<li>動作可選徒手深蹲、伏地挺身、弓箭步等,每個動作先做 1 組,重量選到 12–15 下會疲勞的程度。〔r02〕</li>
+<li>兩次訓練之間至少隔一天,不連兩天練同一肌群;想更保守就隔 48–72 小時。〔r07〕</li>
+<li>當某動作能輕鬆多做幾下,依「一次只改一個變項」的原則逐步加重或加次數。〔r04〕</li>
+<li>疼痛就停止或退階,有健康疑慮先諮詢專業人員。〔r02〕</li>
+</ul>
+<h2>相關頁面</h2>
+<ul>
+<li><a href="#w-weekly-guidelines">weekly-guidelines</a></li>
+<li><a href="#w-sets-reps-rest">sets-reps-rest</a></li>
+<li><a href="#w-progressive-overload">progressive-overload</a></li>
+</ul></article><article id="w-getting-started-safely" hidden><p class="meta">來源:r02, r03, r04</p><h1>第一次怎麼安全開始</h1>
+<h2>重點</h2>
+<ul>
+<li>有慢性病或安全疑慮時,開始前先與醫療專業人員討論。〔r02〕</li>
+<li>開始前建議向醫師或運動專業人員諮詢。〔r03〕</li>
+<li>訓練前先用快走等有氧活動暖身幾分鐘,可能降低受傷風險。〔r02〕</li>
+<li>降低受傷風險的三件事:正確暖身、動作技巧正確、慢慢增加重量。〔r03〕</li>
+<li>新手可請教練或健身專業人員教正確姿勢,訓練中記得呼吸。〔r02〕</li>
+<li>若某個動作造成疼痛,就停止該動作,改用較輕重量或過幾天再試。〔r02〕</li>
+<li>不需要器材也能開始:深蹲、伏地挺身、弓箭步等徒手動作都可以。〔r03〕</li>
+<li>和別人一起練,比較容易持續下去。〔r03〕</li>
+<li>高齡者、有心臟問題或骨質疏鬆等情況,受傷風險較高,應先與物理治療師或運動防護員合作。〔r04〕</li>
+</ul>
+<h2>相關頁面</h2>
+<ul>
+<li><a href="#w-sets-reps-rest">sets-reps-rest</a></li>
+<li><a href="#w-progressive-overload">progressive-overload</a></li>
+</ul></article><article id="w-progressive-overload" hidden><p class="meta">來源:r04, r05</p><h1>漸進超負荷</h1>
+<h2>重點</h2>
+<ul>
+<li>漸進超負荷就是在肌力訓練中,逐步提高肌肉承受的負荷。〔r04〕</li>
+<li>身體適應之後,同樣的訓練刺激會變小,所以需要逐步提高要求。〔r05〕</li>
+<li>可以調整的變項有:重量、次數、訓練時間、速度或組間休息。〔r04〕</li>
+<li>一次只改一個變項;當它變輕鬆,再換下一個。〔r04〕</li>
+<li>加重量是最常見的方法,但不是唯一;先把姿勢做好、在姿勢正確下多做幾下,也是有效的進步方式。〔r05〕</li>
+<li>經驗法則:如果最後一組覺得還能再做至少 5 下,可考慮加約 5 磅(約 2.3 公斤)。這是範例,不是定律。〔r04〕</li>
+<li>如果某動作 15 下毫不費力,就把次數降回去並加重量。〔r04〕</li>
+<li>縮短休息只適合短期使用;每 4–6 週安排一個減量週,延長休息或減輕重量。〔r04〕</li>
+<li>用簡單的訓練日誌記錄,才知道負荷有沒有真的提高。〔r05〕</li>
+<li>徒手訓練同樣適用漸進超負荷。〔r05〕</li>
+<li>風險:姿勢不佳或進步太快,可能造成過度使用傷害、肌腱病變、拉傷或應力性骨折;出現疼痛就退回去。〔r04〕</li>
+<li>進步停滯,常是因為刺激不夠或恢復不足。〔r05〕</li>
+</ul>
+<h2>相關頁面</h2>
+<ul>
+<li><a href="#w-sets-reps-rest">sets-reps-rest</a></li>
+<li><a href="#w-rest-sleep-recovery">rest-sleep-recovery</a></li>
+</ul></article><article id="w-protein" hidden><p class="meta">來源:r06</p><h1>蛋白質與肌肉</h1>
+<h2>重點</h2>
+<ul>
+<li>一項統合分析納入 49 項隨機對照試驗、共 1863 人,受試者做阻力訓練至少 6 週。〔r06〕</li>
+<li>結果:補充蛋白質讓去脂體重多增加約 0.30 公斤,1RM 肌力多增加約 2.49 公斤(約 9%)。〔r06〕</li>
+<li>總蛋白質攝取量超過約 1.6 g/kg/天後,沒有看到進一步的增肌效益;這個估計的 95% 信賴區間是 1.03–2.20。〔r06〕</li>
+<li>作者表示,若想保守,可考慮到約 2.2 g/kg/天。〔r06〕</li>
+<li>作者認為,只吃建議攝取量 0.8 g/kg/天,對想用阻力訓練增肌增力的人似乎不足。〔r06〕</li>
+<li>補充蛋白質對年紀較大者的效果較小,對有訓練經驗者較明顯。〔r06〕</li>
+<li>蛋白質的時機、單次劑量與來源,對數週內增肌的影響很小。〔r06〕</li>
+<li>作者強調:阻力訓練本身是比蛋白質更強的刺激。〔r06〕</li>
+<li>研究限制:老年研究少、排除熱量限制者、女性研究比男性少,1.6 是未達統計顯著的拐點估計。〔r06〕</li>
+<li>利益揭露:作者之一曾獲美國乳業機構的補助,該機構也資助過部分被納入的試驗。〔r06〕</li>
+</ul>
+<h2>待確認</h2>
+<ul>
+<li>腎臟疾病、懷孕、高齡等情況的蛋白質需求,本 Wiki 的來源沒有涵蓋,請詢問醫師或營養師。</li>
+</ul>
+<h2>相關頁面</h2>
+<ul>
+<li><a href="#w-progressive-overload">progressive-overload</a></li>
+<li><a href="#w-source-conflicts">source-conflicts</a></li>
+</ul></article><article id="w-rest-sleep-recovery" hidden><p class="meta">來源:r02, r05, r07, r08</p><h1>休息、睡眠與恢復</h1>
+<h2>重點</h2>
+<ul>
+<li>超負荷製造「需要適應」的刺激,恢復才讓適應真正發生;睡眠、營養與恢復幫助組織修復。〔r05〕</li>
+<li>同一肌群兩次訓練之間,Mayo Clinic 建議至少休息一整天。〔r02〕</li>
+<li>NASM 的建議較保守:同一肌群兩次訓練之間至少 48–72 小時,連續訓練時要輪換肌群。〔r07〕</li>
+<li>大學健康中心建議每週有 2–3 天不做高強度運動,可用瑜伽、快走等主動恢復。〔r07〕</li>
+<li>休息包含睡眠、減壓與放鬆,不只是「不運動」。〔r07〕</li>
+<li>休息日肌肉進行重建,運動消耗的肝醣也在這時補回。〔r07〕</li>
+<li>睡眠專家的說法是:睡眠對肌肉成長與恢復很重要,深睡期會分泌生長激素。〔r08〕</li>
+<li>研究提到睡得較短或較差與肌肉量下降有關,但文章也指出還需要更多研究。〔r08〕</li>
+<li>長期睡眠不足的影響比偶爾一晚熬夜大;一晚沒睡好不會毀掉成果。〔r08〕</li>
+</ul>
+<h2>待確認</h2>
+<ul>
+<li>睡眠相關說法來自商業部落格轉述專家意見,可信度較低,只當方向參考。</li>
+</ul>
+<h2>相關頁面</h2>
+<ul>
+<li><a href="#w-sets-reps-rest">sets-reps-rest</a></li>
+<li><a href="#w-source-conflicts">source-conflicts</a></li>
+</ul></article><article id="w-sets-reps-rest" hidden><p class="meta">來源:r02, r04</p><h1>重量、次數與組數</h1>
+<h2>重點</h2>
+<ul>
+<li>選重量的標準:做到約 12–15 下就讓肌肉感到疲勞。〔r02〕</li>
+<li>當某個動作可以輕鬆多做幾下,就逐步加重或增加阻力。〔r02〕</li>
+<li>Mayo Clinic 指出,單組 12–15 下、重量合適,對多數人就能有效鍛鍊;美國 HHS 也說每個動作 1 組就有健康與體能益處。〔r02〕</li>
+<li>Cleveland Clinic 提供另一種進階結構:5–6 個上下肢動作,每個動作 3 組、每組 6–15 下。〔r04〕</li>
+<li>兩種建議的目標不同,細節見 <a href="#w-source-conflicts">source-conflicts</a>。〔r04〕</li>
+<li>同一肌群之間至少休息一整天。〔r02〕</li>
+<li>次數要慢而有控制;速度太快會讓姿勢跑掉、增加受傷風險。〔r04〕</li>
+</ul>
+<h2>相關頁面</h2>
+<ul>
+<li><a href="#w-progressive-overload">progressive-overload</a></li>
+<li><a href="#w-rest-sleep-recovery">rest-sleep-recovery</a></li>
+<li><a href="#w-source-conflicts">source-conflicts</a></li>
+</ul></article><article id="w-source-conflicts" hidden><p class="meta">來源:r02, r04, r06, r07, r08, r05</p><h1>來源差異與可信度</h1>
+<h2>重點</h2>
+<ul>
+<li>組數:Mayo Clinic 與 HHS 說每個動作 1 組就有健康益處〔r02〕;Cleveland Clinic 的進階結構是每個動作 3 組、每組 6–15 下〔r04〕。新手先做 1 組是合理起點,想持續進步再考慮 3 組。〔r02〕</li>
+<li>恢復時間:Mayo Clinic 說同肌群之間至少休息一整天〔r02〕;NASM 說 48–72 小時〔r07〕。最低共識是不要連兩天練同一肌群。〔r07〕</li>
+<li>蛋白質:建議攝取量 0.8 g/kg/天與研究中約 1.6 g/kg/天的平台點差距很大〔r06〕。研究對象是做阻力訓練的健康成人,排除了熱量限制者,不能直接套用到減重期或疾病族群。〔r06〕</li>
+<li>可信度分級:r01、r02、r03、r04、r06 屬高;r05、r07 屬中;r08 屬低到中(商業部落格)。〔r08〕</li>
+<li>r05 與 r08 只讀到搜尋摘錄,這兩個來源在 Wiki 中只用於觀念層面。〔r05〕</li>
+</ul>
+<h2>相關頁面</h2>
+<ul>
+<li><a href="#w-sets-reps-rest">sets-reps-rest</a></li>
+<li><a href="#w-protein">protein</a></li>
+<li><a href="#w-rest-sleep-recovery">rest-sleep-recovery</a></li>
+</ul></article><article id="w-strength-basics" hidden><p class="meta">來源:r01, r02, r03</p><h1>肌力訓練是什麼</h1>
+<h2>重點</h2>
+<ul>
+<li>肌力訓練(又叫阻力訓練)就是用重量或阻力來鍛鍊肌肉。〔r03〕</li>
+<li>不一定要去健身房:搬箱子、提菜、整理花園這類日常活動也是「附帶運動」。〔r03〕</li>
+<li>肌肉量與肌力會隨年齡下降,肌力訓練可幫助維持與增加,也可能保護骨骼強度。〔r02〕</li>
+<li>可能的好處包括:骨骼健康、體重與體組成管理、日常功能與平衡、部分慢性病的管理。〔r02〕</li>
+<li>也與降低心臟病與糖尿病風險、改善心理健康有關。〔r03〕</li>
+<li>WHO 把肌力活動列為成人每週都該做的項目,因為它能帶來額外的健康益處。〔r01〕</li>
+<li>常見的做法有:徒手、彈力帶、啞鈴或水瓶等自由重量、器械、懸吊訓練。〔r02〕</li>
+</ul>
+<h2>相關頁面</h2>
+<ul>
+<li><a href="#w-weekly-guidelines">weekly-guidelines</a></li>
+<li><a href="#w-getting-started-safely">getting-started-safely</a></li>
+</ul></article><article id="w-weekly-guidelines" hidden><p class="meta">來源:r01, r02, r03</p><h1>每週要做多少</h1>
+<h2>重點</h2>
+<ul>
+<li>WHO 建議 18–64 歲成人每週做 150–300 分鐘中強度有氧,或 75–150 分鐘高強度有氧,或等量組合。〔r01〕</li>
+<li>此外,每週 2 天以上要做涵蓋所有主要肌群、中等或更高強度的肌力活動。這是強建議,證據確定性為中等。〔r01〕</li>
+<li>澳洲的指引同樣建議成人每週至少 2 次肌力訓練。〔r03〕</li>
+<li>Mayo Clinic 指出:每週至少 2 次、每次約 20–30 分鐘,就可能感覺到肌力變強。〔r02〕</li>
+<li>做不到建議量也沒關係,有做就比不做好;從少量開始,再逐步增加頻率、強度與時間。〔r01〕</li>
+<li>指引的寫法是「2 天以上」,代表可以做得更多,但來源沒有給出上限。〔r01〕</li>
+<li>要減少久坐,用任何強度的活動取代久坐都有好處。〔r01〕</li>
+</ul>
+<h2>相關頁面</h2>
+<ul>
+<li><a href="#w-strength-basics">strength-basics</a></li>
+<li><a href="#w-beginner-week-example">beginner-week-example</a></li>
+</ul></article><article id="r-r01" hidden><h1>r01 WHO 2020 身體活動與久坐行為指引</h1>
+<ul>
+<li>來源:WHO Guidelines on Physical Activity and Sedentary Behaviour (2020);BJSM 論文版與 WHO 事實頁</li>
+<li>https://www.ncbi.nlm.nih.gov/books/NBK566048/</li>
+<li>https://bjsm.bmj.com/content/54/24/1451</li>
+<li>https://www.who.int/europe/news-room/fact-sheets/item/physical-activity</li>
+<li>存取日期:2026-11-21</li>
+<li>可信度:<strong>高</strong>(國際衛生組織,依 WHO 指引制定流程,證據確定性為「中」)</li>
+<li>讀取方式:搜尋結果摘錄(未讀全文)</li>
+</ul>
+<h2>改寫重點</h2>
+<ul>
+<li>18–64 歲成人每週應做 150–300 分鐘中強度有氧,或 75–150 分鐘高強度有氧,或等量組合。</li>
+<li>成人還應做「中等或更高強度、涵蓋所有主要肌群」的肌力活動,每週 2 天以上,可帶來額外健康益處。屬於強建議、中等確定性證據。</li>
+<li>做不到建議量時,做一些也有益;應從少量開始,再逐步增加頻率、強度與時間。</li>
+<li>應減少久坐,以任何強度的活動取代久坐都有好處。</li>
+<li>對照:ACSM(2017)的表格寫每個主要肌群每週訓練 2–3 天。(經由 BMJ Open Sport &amp; Exercise Medicine 2022 的比較表轉述,https://pmc.ncbi.nlm.nih.gov/articles/PMC9185660/table/T1)</li>
+</ul>
+<h2>限制</h2>
+<ul>
+<li>指引是公共衛生層級的最低建議,沒有教具體動作或組數。</li>
+</ul></article><article id="r-r02" hidden><h1>r02 Mayo Clinic:Strength training: Get stronger, leaner, healthier</h1>
+<ul>
+<li>來源:https://www.mayoclinic.org/healthy-lifestyle/fitness/in-depth/strength-training/art-20046670</li>
+<li>存取日期:2026-11-21(頁面標示更新日 2026-06-05)</li>
+<li>可信度:<strong>高</strong>(醫療機構,文末列有 ACSM、HHS 等參考文獻)</li>
+<li>讀取方式:全文抓取</li>
+</ul>
+<h2>改寫重點</h2>
+<ul>
+<li>肌肉量與肌力會隨年齡下降,肌力訓練可幫助維持與增加,也可能保護骨骼。</li>
+<li>可能的好處:骨骼健康、體重與體組成管理、日常功能與平衡、部分慢性病管理、思考能力。</li>
+<li>有慢性病或安全疑慮,開始前先與醫療專業人員討論。</li>
+<li>訓練前先用快走等有氧暖身幾分鐘,可能降低受傷風險。</li>
+<li>重量選擇:做約 12–15 下就會讓肌肉疲勞的程度;當某動作能輕鬆多做幾下,就逐步加重。</li>
+<li>單組 12–15 下、重量合適,對多數人就能有效鍛鍊;做到很吃力或做不動下一下就夠了。</li>
+<li>同一肌群之間至少休息一整天。</li>
+<li>疼痛就停止該動作,降低重量或過幾天再試。</li>
+<li>姿勢與技巧重要;新手可找教練學;記得呼吸。</li>
+<li>工具選項:徒手(伏地挺身、弓箭步、深蹲等)、彈力帶、啞鈴/水瓶等自由重量、器械、懸吊訓練。</li>
+<li>每週至少 2 次、每次約 20–30 分鐘就可能感覺肌力變強。</li>
+<li>引用美國 HHS:所有主要肌群每週至少 2 次,每個動作做 1 組即有健康與體能益處。</li>
+</ul>
+<h2>限制</h2>
+<ul>
+<li>一般民眾衛教文章,沒有討論增肌的進階變項。</li>
+</ul></article><article id="r-r03" hidden><h1>r03 Healthdirect Australia:Strength training for beginners</h1>
+<ul>
+<li>來源:https://www.healthdirect.gov.au/strength-training-for-beginners</li>
+<li>存取日期:2026-11-21</li>
+<li>可信度:<strong>高</strong>(澳洲政府健康資訊服務)</li>
+<li>讀取方式:搜尋結果摘錄(未讀全文)</li>
+</ul>
+<h2>改寫重點</h2>
+<ul>
+<li>肌力訓練就是用重量或阻力鍛鍊肌肉,又叫阻力訓練。</li>
+<li>日常活動也算「附帶運動」:搬箱子、整理花園、提菜。</li>
+<li>好處:降低心臟病與糖尿病風險、協助控制血壓與血糖,搭配健康飲食可幫助體重控制,也可改善心理健康。</li>
+<li>澳洲活動指引建議成人每週至少 2 次肌力訓練。</li>
+<li>開始前建議先向醫師或運動專業人員諮詢。</li>
+<li>可在健身房、公園或家裡做;和團體一起練更容易持續。</li>
+<li>不一定要器材,可用體重:深蹲、伏地挺身、弓箭步。</li>
+<li>降低受傷風險:正確暖身、動作技巧正確、慢慢增加重量。</li>
+</ul>
+<h2>限制</h2>
+<ul>
+<li>摘錄不完整,細節以原頁面為準。</li>
+</ul></article><article id="r-r04" hidden><h1>r04 Cleveland Clinic:Your Simple Guide to Progressive Overload Training</h1>
+<ul>
+<li>來源:https://health.clevelandclinic.org/progressive-overload</li>
+<li>存取日期:2026-11-21(頁面日期 2025-10-07)</li>
+<li>可信度:<strong>高</strong>(醫療機構,運動醫學醫師受訪)</li>
+<li>讀取方式:全文抓取</li>
+</ul>
+<h2>改寫重點</h2>
+<ul>
+<li>漸進超負荷:在肌力訓練中逐步增加肌肉承受的負荷。</li>
+<li>一次只改變一個變項:重量、次數、訓練時間,或速度/縮短組間休息。當一種變得輕鬆,再換下一種。</li>
+<li>建議的訓練結構:5–6 個動作(上下肢都有)、每個動作 3 組、每組 6–15 下。</li>
+<li>加重量的經驗法則:若最後一組覺得還能再做至少 5 下,可加約 5 磅(約 2.3 公斤)。</li>
+<li>若某動作 15 下毫不費力,就把次數降回去並加重量。</li>
+<li>縮短休息只宜短期使用;每 4–6 週安排一個「減量週」(延長休息或減輕重量)。</li>
+<li>次數節奏要慢而有控制;速度太快會讓姿勢跑掉。</li>
+<li>風險:姿勢不佳或進步太快,可能造成過度使用傷害、肌腱病變、拉傷、應力性骨折。</li>
+<li>高齡者,尤其有心臟問題、骨質缺乏或骨質疏鬆者,風險較高,應先與物理治療師或運動防護員合作。</li>
+<li>一次不要改太多;若開始疼痛就退回去。</li>
+</ul>
+<h2>限制</h2>
+<ul>
+<li>5 磅是範例性建議,實際增幅因動作與個人而異。</li>
+</ul></article><article id="r-r05" hidden><h1>r05 NASM:Progressive Overload Explained</h1>
+<ul>
+<li>來源:https://www.nasm.org/resource-center/blog/training/progressive-overload</li>
+<li>存取日期:2026-11-21</li>
+<li>可信度:<strong>中</strong>(美國私人體能教練認證機構的部落格;專業但非同儕審查)</li>
+<li>讀取方式:搜尋結果摘錄(未讀全文)</li>
+</ul>
+<h2>改寫重點</h2>
+<ul>
+<li>漸進超負荷:逐步提高訓練的要求。</li>
+<li>身體適應後,同樣的訓練刺激變小,所以需要提高要求。</li>
+<li>加重量是最常見的方法,但不是唯一。很多情況下,先改善技術或在姿勢正確下多做幾下,是加重量前的有效進步方式。</li>
+<li>要有客觀紀錄,簡單的訓練日誌就能判斷訓練要求有沒有真的提高。</li>
+<li>忽略恢復是常見錯誤:超負荷製造適應的需求,恢復才讓適應發生;睡眠、營養與恢復幫助修復組織。</li>
+<li>徒手訓練同樣適用。</li>
+<li>進步停滯常是因為刺激不夠或恢復不足。</li>
+</ul>
+<h2>限制</h2>
+<ul>
+<li>摘錄不完整;此來源在 Wiki 中只用於觀念層面,不用於具體數字。</li>
+</ul></article><article id="r-r06" hidden><h1>r06 Morton et al. 2018:蛋白質補充與阻力訓練的系統性回顧與統合分析</h1>
+<ul>
+<li>來源:Br J Sports Med 2018;52(6):376–384。https://pmc.ncbi.nlm.nih.gov/articles/PMC5867436/</li>
+<li>存取日期:2026-11-21</li>
+<li>可信度:<strong>高但有限制</strong>(系統性回顧+統合分析,同儕審查)</li>
+<li>讀取方式:取得前 100,000 字(全文約 124,668 字),涵蓋摘要、方法、結果、討論、結論;未讀完最後的參考文獻尾段</li>
+<li>利益揭露:作者之一曾獲美國 National Dairy Council 補助,該機構也資助過被納入的部分試驗。頁面另註明本文有勘誤。</li>
+</ul>
+<h2>改寫重點</h2>
+<ul>
+<li>納入 49 項隨機對照試驗、共 1863 人,阻力訓練至少 6 週,受試者為健康、未限制熱量的成人。</li>
+<li>補充蛋白質使去脂體重多增加約 0.30 公斤、1RM 肌力多增加約 2.49 公斤(約 9%)。</li>
+<li>總蛋白質攝取量超過約 1.6 g/kg/天後,沒有進一步的增肌效益;該估計的 95% 信賴區間為 1.03–2.20。作者說若要保守,可考慮到約 2.2 g/kg/天。</li>
+<li>補充蛋白質對年齡較大者效果較小,對有訓練經驗者較明顯。</li>
+<li>蛋白質的時機、單次劑量、來源,對數週內的增肌影響很小。</li>
+<li>作者結論:阻力訓練本身是比蛋白質更強的刺激;每日約 1.6 g/kg 較重要。</li>
+<li>作者認為只吃 RDA(0.8 g/kg/天)對想用阻力訓練增肌增力的人似乎不足。</li>
+</ul>
+<h2>限制</h2>
+<ul>
+<li>老年研究少;排除熱量限制者(減重期的結果不適用);女性研究較男性少;1.6 為未達顯著的拐點估計(p=0.079)。</li>
+</ul></article><article id="r-r07" hidden><h1>r07 休息日與恢復(NASM 部落格 + 科羅拉多大學博爾德分校健康中心)</h1>
+<ul>
+<li>來源:</li>
+<li>https://blog.nasm.org/why-rest-days-are-important-for-muscle-building</li>
+<li>https://www.colorado.edu/health/node/283</li>
+<li>存取日期:2026-11-21</li>
+<li>可信度:<strong>中</strong>(體能教練機構與大學校園健康單位的衛教文章,非研究論文)</li>
+<li>讀取方式:搜尋結果摘錄(未讀全文)</li>
+</ul>
+<h2>改寫重點</h2>
+<ul>
+<li>休息包含睡眠、減壓、身心放鬆;沒有休息,肌肉修復受阻。</li>
+<li>若連續幾天訓練,應輪換肌群,讓每個肌群在兩次訓練間至少有 48–72 小時恢復。(NASM)</li>
+<li>恢復可分為休息、補充、再生三階段。(NASM)</li>
+<li>睡眠對細胞修復與荷爾蒙調節很重要。(NASM)</li>
+<li>休息日是「成長日」:肌肉在休息時重建,肝醣也在此時補回。(科羅拉多大學)</li>
+<li>建議每週有 2–3 天不做高強度運動,並可搭配瑜伽、快走等主動恢復。(科羅拉多大學)</li>
+</ul>
+<h2>限制</h2>
+<ul>
+<li>屬衛教建議;「每週 2–3 天」與「48–72 小時」是實務原則,未附實驗證據。</li>
+</ul></article><article id="r-r08" hidden><h1>r08 睡眠與肌肉(Peloton 部落格、Rep Fitness 部落格;大眾來源)</h1>
+<ul>
+<li>來源:</li>
+<li>https://www.onepeloton.com/en-CA/blog/sleep-and-muscle-growth</li>
+<li>https://repfitness.com/blogs/training/sleep-and-muscle-recovery</li>
+<li>存取日期:2026-11-21</li>
+<li>可信度:<strong>低到中</strong>(健身品牌/器材商的部落格,引用睡眠醫學專家但屬二手轉述)</li>
+<li>讀取方式:搜尋結果摘錄(未讀全文)</li>
+</ul>
+<h2>改寫重點</h2>
+<ul>
+<li>專家說法:睡眠對肌肉成長與恢復很重要,深睡期會分泌生長激素。</li>
+<li>研究提到較短或較差的睡眠與肌肉量下降有關;但文章也說仍需要更多研究。</li>
+<li>長期睡眠不足比偶爾一晚沒睡影響大;一晚熬夜不會毀掉成果。</li>
+<li>補眠無法補回已錯失的那天肌肉合成,但可以減少睡眠債。</li>
+<li>實用建議:固定作息、睡前少看螢幕。</li>
+</ul>
+<h2>限制</h2>
+<ul>
+<li>商業部落格,Wiki 內只用於「方向性」說法(睡眠不足可能不利恢復),不引用其中的百分比或精確數字。</li>
+</ul></article><article id="p-loop" hidden><h1>Loop / Graph 設計</h1>
+<p>資訊從「網路上的原始文章」到「簡報上的一句話」,要經過 9 個節點,中間有 2 個檢查節點,失敗就退回上一步重做。</p>
+<h2>流程圖</h2>
+<div class="scroll"><svg viewBox="0 0 770 400" width="770" role="img" aria-label="Loop 流程圖:N1 到 N9,N5 與 N8 為檢查節點,失敗會退回前面節點" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" style="fill:var(--muted)"/></marker>
+<marker id="arf" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" style="fill:var(--warn)"/></marker></defs>
+<style>
+.nd{fill:var(--panel);stroke:var(--line);stroke-width:1.5}
+.ck{fill:var(--panel);stroke:var(--accent);stroke-width:2.5}
+.t1{font:600 14px sans-serif;fill:var(--fg)} .t2{font:12px sans-serif;fill:var(--muted)}
+.ln{stroke:var(--muted);stroke-width:1.6;fill:none} .fl{stroke:var(--warn);stroke-width:1.6;fill:none;stroke-dasharray:5 4}
+.lb{font:12px sans-serif;fill:var(--warn)}
+</style>
+<g><rect class="nd" x="20" y="20" width="150" height="56" rx="8"/><text class="t1" x="95" y="45" text-anchor="middle">N1 取得資料</text><text class="t2" x="95" y="64" text-anchor="middle">搜尋、抓取網頁</text></g>
+<g><rect class="nd" x="210" y="20" width="150" height="56" rx="8"/><text class="t1" x="285" y="45" text-anchor="middle">N2 Ingest</text><text class="t2" x="285" y="64" text-anchor="middle">改寫成 raw 筆記</text></g>
+<g><rect class="nd" x="400" y="20" width="150" height="56" rx="8"/><text class="t1" x="475" y="45" text-anchor="middle">N3 討論大綱</text><text class="t2" x="475" y="64" text-anchor="middle">條目、來源、衝突</text></g>
+<g><rect class="nd" x="590" y="20" width="150" height="56" rx="8"/><text class="t1" x="665" y="45" text-anchor="middle">N4 生成條目</text><text class="t2" x="665" y="64" text-anchor="middle">每句標〔rNN〕</text></g>
+<g><rect class="ck" x="590" y="150" width="150" height="56" rx="8"/><text class="t1" x="665" y="175" text-anchor="middle">N5 Wiki 檢查</text><text class="t2" x="665" y="194" text-anchor="middle">L1 L2 L3</text></g>
+<g><rect class="nd" x="400" y="150" width="150" height="56" rx="8"/><text class="t1" x="475" y="175" text-anchor="middle">N6 查詢整理</text><text class="t2" x="475" y="194" text-anchor="middle">只從 Wiki 取材</text></g>
+<g><rect class="nd" x="210" y="150" width="150" height="56" rx="8"/><text class="t1" x="285" y="175" text-anchor="middle">N7 生成簡報</text><text class="t2" x="285" y="194" text-anchor="middle">每頁 data-wiki</text></g>
+<g><rect class="ck" x="210" y="290" width="150" height="56" rx="8"/><text class="t1" x="285" y="315" text-anchor="middle">N8 簡報檢查</text><text class="t2" x="285" y="334" text-anchor="middle">S1 S2 + 人工 + 截圖</text></g>
+<g><rect class="nd" x="20" y="290" width="150" height="56" rx="8"/><text class="t1" x="95" y="315" text-anchor="middle">N9 發布</text><text class="t2" x="95" y="334" text-anchor="middle">可瀏覽的網頁連結</text></g>
+<path class="ln" d="M170 48H208" marker-end="url(#ar)"/><path class="ln" d="M360 48H398" marker-end="url(#ar)"/><path class="ln" d="M550 48H588" marker-end="url(#ar)"/>
+<path class="ln" d="M645 76V148" marker-end="url(#ar)"/>
+<path class="fl" d="M685 148V78" marker-end="url(#arf)"/><text class="lb" x="693" y="118">失敗</text>
+<path class="ln" d="M590 178H552" marker-end="url(#ar)"/><path class="ln" d="M400 178H362" marker-end="url(#ar)"/>
+<path class="ln" d="M265 206V288" marker-end="url(#ar)"/>
+<path class="fl" d="M305 288V208" marker-end="url(#arf)"/><text class="lb" x="313" y="252">簡報有誤</text>
+<path class="ln" d="M210 318H172" marker-end="url(#ar)"/>
+<path class="fl" d="M360 330H756V48H742" marker-end="url(#arf)"/><text class="lb" x="520" y="352">條目本身有誤,退回 N4</text>
+</svg></div>
+<p class="cap">實線是正常流程,虛線是檢查失敗時退回的路徑。粗框是檢查節點。</p>
+
+<h2>各節點做什麼</h2>
+<table>
+<thead>
+<tr>
+<th>節點</th>
+<th>工作</th>
+<th>輸入 → 輸出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N1 取得資料</td>
+<td>網路搜尋、抓取網頁全文</td>
+<td>問題 → 候選來源</td>
+</tr>
+<tr>
+<td>N2 Ingest</td>
+<td>改寫成重點、記網址、存取日期、可信度、讀取方式與限制</td>
+<td>來源 → <code>raw/rNN-*.md</code></td>
+</tr>
+<tr>
+<td>N3 討論</td>
+<td>列條目大綱、每條目用哪些來源、來源之間的衝突</td>
+<td>raw → <code>DISCUSSION.md</code></td>
+</tr>
+<tr>
+<td>N4 生成條目</td>
+<td>每個事實句尾標 <code>〔rNN〕</code></td>
+<td>raw + 大綱 → <code>wiki/*.md</code></td>
+</tr>
+<tr>
+<td>N5 Wiki 檢查</td>
+<td><code>check.py wiki</code>:L1 來源檔存在、L2 每個 bullet 有來源且列在 sources、L3 連結有效</td>
+<td>wiki → 通過 / 失敗清單</td>
+</tr>
+<tr>
+<td>N6 查詢與整理</td>
+<td>只從 Wiki 取材,決定簡報頁面與每頁引用哪些條目</td>
+<td>wiki → 簡報大綱</td>
+</tr>
+<tr>
+<td>N7 生成簡報</td>
+<td>每頁加 <code>data-wiki</code>,頁尾顯示條目與來源編號</td>
+<td>大綱 → <code>slides/index.html</code></td>
+</tr>
+<tr>
+<td>N8 簡報檢查</td>
+<td><code>check.py slides</code>:S1 每頁有對應條目、S2 頁面上每個數字都要在該條目裡;再加人工覆核詮釋是否偏移,並用瀏覽器截圖看版面</td>
+<td>簡報 → 通過 / 失敗清單</td>
+</tr>
+<tr>
+<td>N9 發布</td>
+<td>發布成可瀏覽的網頁連結</td>
+<td>通過的簡報 → 連結</td>
+</tr>
+</tbody>
+</table>
+<h2>問題對應</h2>
+<p><strong>哪些步驟會重複執行?</strong>
+- N1–N2 對每個來源各跑一次(本次 8 個來源)。
+- N4–N5 對每個條目跑,檢查失敗就重生成。
+- N7–N8 整份簡報跑,直到檢查通過。</p>
+<p><strong>哪些地方需要檢查或重新生成?</strong>
+- N5:條目的來源標註與連結。失敗 → 重生成條目。
+- N8:簡報的條目對應與數字追溯。失敗 → 重生成簡報;若發現是條目本身寫錯,退回 N4。
+- N3 雖然不是自動檢查,但它先列出衝突,避免 N4 把不同來源的說法混成一句。</p>
+<p><strong>為什麼這樣設計?</strong>
+1. 簡報只能從 Wiki 取材,不直接從網頁取材,所以每句話都能追溯到 <code>raw/</code> 與網址。
+2. 把檢查放在兩個「交接點」(來源 → 條目、條目 → 簡報),因為資訊在交接時最容易被改寫走樣。
+3. 數字是最容易錯、也最容易自動檢查的內容,所以用腳本做;「意思有沒有被改變」腳本抓不到,所以另加人工覆核。
+4. 低可信度來源(商業部落格)在 raw 筆記就標明限制,並在條目與簡報上註明,避免當成強證據。</p></article><article id="p-runlog" hidden><h1>一次實際執行的結果與檢查紀錄</h1>
+<p>執行日期:2026-11-21。以下是這次真實跑過的結果,沒有事後美化。</p>
+<h2>N1 取得資料</h2>
+<ul>
+<li>5 組搜尋:WHO 身體活動指引、Mayo Clinic 新手肌力訓練、漸進超負荷、蛋白質與增肌、睡眠與休息日。</li>
+<li>3 個頁面抓取全文:Mayo Clinic、Cleveland Clinic、Morton 2018 統合分析。</li>
+<li><strong>限制</strong>:Morton 論文頁面只取得前 100,000 字(全文約 124,668 字),涵蓋摘要、方法、結果、討論、結論,未讀完文末參考文獻。另外 5 個來源(r01、r03、r05、r07、r08)只讀到搜尋結果摘錄,沒有讀全文。</li>
+</ul>
+<h2>N2 Ingest</h2>
+<ul>
+<li>產出 8 筆 raw 筆記,各自標了網址、存取日期、可信度、讀取方式與限制。</li>
+<li>可信度:高 5 篇(r01 r02 r03 r04 r06)、中 2 篇(r05 r07)、低到中 1 篇(r08)。</li>
+</ul>
+<h2>N3 討論</h2>
+<ul>
+<li><code>DISCUSSION.md</code> 列出 9 個條目與 4 個衝突(組數、恢復時間、蛋白質、來源品質)。</li>
+<li>說明:這次的「討論」是我與 AI 在生成前先寫出大綱與衝突清單,沒有另外的人類審稿者。</li>
+</ul>
+<h2>N4–N5 條目與 Wiki 檢查</h2>
+<ul>
+<li>生成 9 個條目。</li>
+<li><code>check.py wiki</code>:第 1 次就通過,0 項失敗。</li>
+<li>備註:這代表格式與來源標註一致,不代表內容都正確。內容正確性靠 N8 的覆核。</li>
+</ul>
+<h2>N7–N8 簡報與簡報檢查</h2>
+<table>
+<thead>
+<tr>
+<th>次數</th>
+<th>結果</th>
+<th>原因與處理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>第 1 次 <code>check.py slides</code></td>
+<td><strong>2 項失敗(S2)</strong>:第 2 頁數字 1、第 6 頁數字 2</td>
+<td>這是頁首標籤「觀念 1」「怎麼練 2」的編號被當成事實數字。處理:標籤改成不含數字(例如「觀念 · 是什麼」),退回 N7 重生成這些標籤。</td>
+</tr>
+<tr>
+<td>人工語意覆核</td>
+<td><strong>發現 1 項腳本抓不到的問題</strong></td>
+<td>條目與簡報曾把 WHO 的「每週 2 天以上」寫成「最低門檻,不是上限」。來源只說「2 天以上」,沒有明說這是最低門檻。處理:改為「指引寫的是『2 天以上』,代表可以做更多,但來源沒有給出上限」,條目與簡報同步修正。</td>
+</tr>
+<tr>
+<td>第 2、3 次 <code>check.py all</code></td>
+<td>全部通過</td>
+<td>wiki 與簡報都 0 項失敗。</td>
+</tr>
+<tr>
+<td>截圖檢查</td>
+<td>通過</td>
+<td>以 Chrome 截了電腦版(第 1、3、6、8、9 頁)與手機版(第 9 頁),版面正常、無 JavaScript 錯誤。我實際檢視了第 6 頁(電腦)與第 9 頁(手機)的截圖,其餘頁面只確認有成功輸出。</td>
+</tr>
+</tbody>
+</table>
+<h2>最後狀態</h2>
+<ul>
+<li>簡報 11 頁,每頁都有 <code>data-wiki</code> 對應條目,頁面上所有數字都能在對應條目找到。</li>
+<li>已知限制:S2 只檢查「數字有沒有出現」,不檢查「數字配的是不是同一件事」。</li>
+</ul></article><article id="p-reflection" hidden><h1>反思(草稿,請依自己的體會調整)</h1>
+<h2>哪一個節點最常出錯?</h2>
+<p><strong>N7 → N8,也就是「把 Wiki 內容變成簡報」這一段。</strong>這次檢查失敗與修正全部發生在這裡:</p>
+<ul>
+<li>2 次自動檢查失敗:頁首標籤的編號被當成事實數字。</li>
+<li>1 次腳本抓不到的詮釋偏移:我把 WHO 的「2 天以上」寫成「最低門檻,不是上限」,來源沒有這樣說。</li>
+</ul>
+<p>另一個高風險節點是 N1:8 個來源裡有 5 個只讀到搜尋摘錄,Morton 論文也只讀了前 100,000 字。資料沒讀全,後面再怎麼檢查,也只是檢查「有沒有忠於已讀到的部分」。</p>
+<h2>發現問題後,檢查往前移到哪一步?</h2>
+<p>原本我只想在最後檢查簡報。實際做下來,把檢查往前移了三處:</p>
+<ol>
+<li><strong>移到 N2</strong>:每個 raw 筆記都先寫「讀取方式」與「限制」,把摘錄與全文分開,低可信度來源預先限定用途。</li>
+<li><strong>移到 N3</strong>:生成條目前先列出來源之間的衝突(組數、恢復時間、蛋白質),避免 N4 把不同說法混成一句。</li>
+<li><strong>移到 N4</strong>:每個事實句生成時就必須標 <code>〔rNN〕</code>,N5 立刻檢查,不等到簡報完成才發現沒有來源。</li>
+</ol>
+<h2>有沒有因此修改 workflow / graph?為什麼?</h2>
+<p>有兩個修改:</p>
+<ol>
+<li><strong>N8 加上人工語意覆核。</strong>因為腳本只能確認「數字有沒有出現在條目裡」,不能確認「意思有沒有被改變」。「2 天以上」的問題就是這樣被抓到的。</li>
+<li><strong>N8 加上瀏覽器截圖。</strong>因為 HTML 通過檢查,不代表版面可讀;尤其手機版容易跑版。</li>
+</ol>
+<p>之後還想改的地方:把 S2 從「只比對數字」改成「數字加單位一起比對」,例如 <code>1.6 g/kg</code>,減少數字相同但意思不同的漏洞。</p></article></main>
+</div>
+<script>
+(function(){
+  var arts=[].slice.call(document.querySelectorAll('article'));
+  var links=[].slice.call(document.querySelectorAll('nav a[data-p]'));
+  function route(){
+    var id=(location.hash||'').slice(1)||'home';
+    if(!document.getElementById(id)) id='home';
+    arts.forEach(function(a){a.hidden=(a.id!==id)});
+    links.forEach(function(l){l.classList.toggle('on',l.getAttribute('data-p')===id)});
+    window.scrollTo(0,0);
+    var d=document.querySelector('details.menu'); if(d) d.open=false;
+  }
+  window.addEventListener('hashchange',route); route();
+})();
+</script>
+
+</body>
+</html>

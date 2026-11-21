@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>新手肌力訓練入門</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+  :root{ --bg:#f4f7fb; --panel:#ffffff; --ink:#122033; --muted:#52657d; --accent:#0f9488; --warn:#b45309; --line:#d5dee9; }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){ --bg:#0f1b2d; --panel:#16273f; --ink:#eef3f9; --muted:#9fb3cc; --accent:#2dd4bf; --warn:#fbbf24; --line:#2a3f5e; color-scheme:dark }
+  }
+  :root[data-theme="dark"]{ --bg:#0f1b2d; --panel:#16273f; --ink:#eef3f9; --muted:#9fb3cc; --accent:#2dd4bf; --warn:#fbbf24; --line:#2a3f5e; color-scheme:dark }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{background:var(--bg);color:var(--ink);font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;line-height:1.6}
+  #deck{height:100%;display:flex;align-items:center;justify-content:center;padding-block:16px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  section{display:none;width:min(1100px,100%);min-height:min(620px,88vh);background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:40px 48px 24px;flex-direction:column}
+  section.on{display:flex}
+  .tag{color:var(--accent);font-size:14px;letter-spacing:.12em;margin:0 0 8px}
+  h1{font-size:clamp(30px,5vw,52px);line-height:1.2;margin:0 0 12px}
+  h2{font-size:clamp(24px,3.6vw,36px);margin:0 0 20px;line-height:1.25}
+  .lead{font-size:clamp(17px,2.2vw,22px);color:var(--muted);margin:0 0 16px}
+  ul{margin:0;padding-left:1.2em;font-size:clamp(16px,2vw,21px)}
+  li{margin:0 0 10px}
+  .big{font-size:clamp(44px,8vw,84px);font-weight:700;color:var(--accent);line-height:1.1;margin:0}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:8px}
+  .card{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+  .card b{display:block;color:var(--accent);font-size:15px;margin-bottom:4px}
+  .card p{margin:0;font-size:17px}
+  .note{margin-top:14px;padding:12px 16px;border-left:4px solid var(--warn);background:var(--bg);border-radius:6px;font-size:16px}
+  .week{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin:12px 0}
+  .day{border:1px solid var(--line);border-radius:10px;padding:10px 6px;text-align:center;font-size:15px;background:var(--bg)}
+  .day.train{border-color:var(--accent);color:var(--accent);font-weight:700}
+  .cycle{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:8px 0 16px}
+  .step{background:var(--bg);border:1px solid var(--accent);color:var(--ink);padding:10px 16px;border-radius:999px;font-size:17px}
+  .arrow{color:var(--muted)}
+  footer{margin-top:auto;padding-top:18px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--muted);border-top:1px solid var(--line)}
+  nav{position:fixed;bottom:10px;left:0;right:0;display:flex;justify-content:center;gap:10px;align-items:center;font-size:14px;color:var(--muted)}
+  nav button{background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:6px 14px;font:inherit;cursor:pointer}
+  #bar{position:fixed;top:0;left:0;height:4px;background:var(--accent);width:0;transition:width .2s}
+  @media (max-width:700px){ section{padding:24px 20px 16px} .week{grid-template-columns:repeat(4,1fr)} }
+  @media print{ section{display:flex!important;page-break-after:always;min-height:auto} nav,#bar{display:none} }
+</style>
+</head>
+<body>
+<div id="bar"></div>
+<div id="deck">
+
+<section class="on" data-wiki="strength-basics.md">
+  <p class="tag">教學簡報 · 給完全新手</p>
+  <h1>新手肌力訓練入門</h1>
+  <p class="lead">不用上健身房、不用懂術語:一份從可靠資料整理出來的起步指南。</p>
+  <div class="grid">
+    <div class="card"><b>你會學到</b><p>什麼是肌力訓練、每週做多少</p></div>
+    <div class="card"><b>你會學到</b><p>怎麼安全開始、怎麼慢慢進步</p></div>
+    <div class="card"><b>你會學到</b><p>休息與蛋白質的實際角色</p></div>
+  </div>
+  <footer><span>Wiki:strength-basics</span><span>來源:r01 r02 r03</span></footer>
+</section>
+
+<section data-wiki="strength-basics.md">
+  <p class="tag">觀念 · 是什麼</p>
+  <h2>肌力訓練,就是「讓肌肉對抗阻力」</h2>
+  <ul>
+    <li>用重量或阻力鍛鍊肌肉,又叫阻力訓練。</li>
+    <li>搬箱子、提菜、整理花園也算「附帶運動」。</li>
+    <li>肌肉量與肌力會隨年齡下降,練習可以幫助維持,也可能保護骨骼。</li>
+    <li>可能的好處:骨骼健康、日常功能與平衡、體重與體組成管理。</li>
+  </ul>
+  <div class="grid">
+    <div class="card"><b>徒手</b><p>深蹲、伏地挺身、弓箭步</p></div>
+    <div class="card"><b>簡單器材</b><p>彈力帶、啞鈴、裝水的瓶子</p></div>
+    <div class="card"><b>器械</b><p>健身房的重量訓練機</p></div>
+  </div>
+  <footer><span>Wiki:strength-basics</span><span>來源:r02 r03</span></footer>
+</section>
+
+<section data-wiki="weekly-guidelines.md">
+  <p class="tag">觀念 · 做多少</p>
+  <h2>每週要做多少?</h2>
+  <p class="lead">WHO 對 18–64 歲成人的建議:</p>
+  <div class="grid">
+    <div class="card"><b>有氧</b><p class="big" style="font-size:40px">150–300</p><p>分鐘中強度,每週</p></div>
+    <div class="card"><b>肌力</b><p class="big" style="font-size:40px">2 天以上</p><p>涵蓋所有主要肌群</p></div>
+    <div class="card"><b>每次多久?</b><p class="big" style="font-size:40px">20–30</p><p>分鐘就可能感覺變強(Mayo Clinic)</p></div>
+  </div>
+  <div class="note">做不到也沒關係:從少量開始,再逐步增加頻率、強度與時間。指引寫的是「2 天以上」,代表可以做更多。</div>
+  <footer><span>Wiki:weekly-guidelines</span><span>來源:r01 r02</span></footer>
+</section>
+
+<section data-wiki="getting-started-safely.md">
+  <p class="tag">開始之前</p>
+  <h2>第一次,先把「安全」放前面</h2>
+  <ul>
+    <li><b>有慢性病或疑慮</b>:先與醫師或運動專業人員討論。</li>
+    <li><b>先暖身</b>:快走等有氧活動幾分鐘。</li>
+    <li><b>學好姿勢</b>:新手可請教練指導,過程中記得呼吸。</li>
+    <li><b>慢慢加重</b>:不要一次跳太多。</li>
+    <li><b>會痛就停</b>:停止該動作,改輕一點或過幾天再試。</li>
+  </ul>
+  <div class="note">高齡者、有心臟問題或骨質疏鬆者受傷風險較高,應先與物理治療師或運動防護員合作。</div>
+  <footer><span>Wiki:getting-started-safely</span><span>來源:r02 r03 r04</span></footer>
+</section>
+
+<section data-wiki="sets-reps-rest.md">
+  <p class="tag">怎麼練 · 重量與次數</p>
+  <h2>重量、次數、組數:怎麼選?</h2>
+  <p class="lead">選重量的標準:做到約 12–15 下,肌肉就覺得累。</p>
+  <div class="grid">
+    <div class="card"><b>新手起點</b><p>每個動作 1 組、12–15 下,重量合適就能有效鍛鍊。</p></div>
+    <div class="card"><b>想更進一步</b><p>5–6 個動作,每個動作 3 組、每組 6–15 下(Cleveland Clinic)。</p></div>
+    <div class="card"><b>節奏</b><p>慢而有控制,速度太快姿勢會跑掉。</p></div>
+  </div>
+  <div class="note">兩種建議目的不同,不是誰對誰錯:前者是健康基本盤,後者是持續進步的結構。</div>
+  <footer><span>Wiki:sets-reps-rest</span><span>來源:r02 r04</span></footer>
+</section>
+
+<section data-wiki="progressive-overload.md">
+  <p class="tag">怎麼練 · 持續進步</p>
+  <h2>漸進超負荷:一次只改一個變項</h2>
+  <p class="lead">身體適應後,同樣的訓練就不夠了;要逐步提高要求。</p>
+  <div class="cycle">
+    <span class="step">做同樣的訓練</span><span class="arrow">→</span>
+    <span class="step">變輕鬆</span><span class="arrow">→</span>
+    <span class="step">只改一個變項</span><span class="arrow">→</span>
+    <span class="step">身體再適應</span>
+  </div>
+  <div class="grid">
+    <div class="card"><b>可以調整</b><p>重量、次數、時間、速度或組間休息</p></div>
+    <div class="card"><b>加重量的經驗法則</b><p>最後一組還能再做至少 5 下,可考慮加約 5 磅(約 2.3 公斤)。只是範例。</p></div>
+    <div class="card"><b>減量週</b><p>每 4–6 週延長休息或減輕重量一週。</p></div>
+  </div>
+  <div class="note">不是只有加重量才算進步:姿勢更好、在姿勢正確下多做幾下,也是進步。用日誌記下來,才知道真的有進步。</div>
+  <footer><span>Wiki:progressive-overload</span><span>來源:r04 r05</span></footer>
+</section>
+
+<section data-wiki="rest-sleep-recovery.md">
+  <p class="tag">恢復</p>
+  <h2>肌肉是在「休息時」適應的</h2>
+  <ul>
+    <li>訓練製造需求,恢復才讓適應發生;睡眠與營養幫助修復。</li>
+    <li>同一肌群之間:Mayo Clinic 說至少休息一整天;NASM 建議 48–72 小時。</li>
+    <li>大學健康中心建議每週有 2–3 天不做高強度運動,可用快走、瑜伽主動恢復。</li>
+    <li>睡眠專家認為睡眠對肌肉成長與恢復很重要;長期睡不夠比偶爾熬夜影響大。</li>
+  </ul>
+  <div class="note">睡眠的說法來自商業部落格轉述專家意見,證據較弱,請當作方向參考。</div>
+  <footer><span>Wiki:rest-sleep-recovery</span><span>來源:r02 r05 r07 r08</span></footer>
+</section>
+
+<section data-wiki="protein.md">
+  <p class="tag">營養</p>
+  <h2>蛋白質:研究怎麼說?</h2>
+  <p class="lead">一項統合分析:49 項隨機對照試驗、1863 人,做阻力訓練至少 6 週。</p>
+  <div class="grid">
+    <div class="card"><b>補充蛋白質的額外效果</b><p>去脂體重多約 0.30 公斤、1RM 多約 2.49 公斤(約 9%)。</p></div>
+    <div class="card"><b>平台點</b><p>總攝取超過約 1.6 g/kg/天後,沒有進一步增肌效益(信賴區間 1.03–2.20)。</p></div>
+    <div class="card"><b>對照</b><p>建議攝取量是 0.8 g/kg/天;作者認為對想增肌者似乎不足。</p></div>
+  </div>
+  <div class="note">先決條件:這是做阻力訓練的健康成人,排除熱量限制者,老年資料少;作者之一與乳業機構有利益關係。阻力訓練本身比蛋白質更重要。有腎臟疾病、懷孕等情況請問醫師或營養師。</div>
+  <footer><span>Wiki:protein</span><span>來源:r06</span></footer>
+</section>
+
+<section data-wiki="source-conflicts.md">
+  <p class="tag">讀資料的態度</p>
+  <h2>不同來源說法不一致時,怎麼辦?</h2>
+  <ul>
+    <li><b>組數</b>:1 組就有益(Mayo Clinic)vs. 3 組、6–15 下(Cleveland Clinic)→ 目標不同,新手先做 1 組。</li>
+    <li><b>恢復</b>:一整天 vs. 48–72 小時 → 最低共識:不要連兩天練同一肌群。</li>
+    <li><b>蛋白質</b>:0.8 vs. 約 1.6 g/kg/天 → 看研究對象與限制,不直接套用。</li>
+    <li><b>可信度</b>:政府、醫療機構與同儕審查研究較高;商業部落格較低。</li>
+  </ul>
+  <footer><span>Wiki:source-conflicts</span><span>來源:r02 r04 r06 r07 r08</span></footer>
+</section>
+
+<section data-wiki="beginner-week-example.md">
+  <p class="tag">整合範例</p>
+  <h2>新手一週可以這樣排</h2>
+  <div class="week">
+    <div class="day train">週一<br>全身</div><div class="day">週二<br>休息</div><div class="day">週三<br>休息</div>
+    <div class="day train">週四<br>全身</div><div class="day">週五<br>休息</div><div class="day">週六<br>休息</div><div class="day">週日<br>休息</div>
+  </div>
+  <ul>
+    <li>每週 2 次全身訓練,每次約 20–30 分鐘。</li>
+    <li>先快走暖身;每個動作 1 組,選 12–15 下會累的重量。</li>
+    <li>兩次之間至少隔一天;想更保守就隔 48–72 小時。</li>
+    <li>輕鬆之後,一次只改一個變項;疼痛就停。</li>
+  </ul>
+  <div class="note">這是教學範例,不是個人化處方。休息日可以快走等輕活動。</div>
+  <footer><span>Wiki:beginner-week-example</span><span>來源:r01 r02 r04 r07</span></footer>
+</section>
+
+<section data-wiki="source-conflicts.md">
+  <p class="tag">資料來源</p>
+  <h2>這份簡報用到的資料</h2>
+  <ul style="font-size:17px">
+    <li>WHO 身體活動與久坐行為指引(高)</li>
+    <li>Mayo Clinic:肌力訓練(高)</li>
+    <li>Healthdirect Australia:新手肌力訓練(高)</li>
+    <li>Cleveland Clinic:漸進超負荷(高)</li>
+    <li>NASM:漸進超負荷(中)</li>
+    <li>Morton 等人:蛋白質補充統合分析,British Journal of Sports Medicine(高,有利益揭露)</li>
+    <li>NASM 與科羅拉多大學:休息日(中)</li>
+    <li>Peloton、Rep Fitness 睡眠文章(低到中)</li>
+  </ul>
+  <div class="note">本簡報為通識教學,不是醫療建議。每頁底部標註了對應的 Wiki 條目與來源編號。</div>
+  <footer><span>Wiki:source-conflicts</span><span>來源:r01–r08</span></footer>
+</section>
+
+</div>
+<nav><button id="prev">← 上一頁</button><span id="pg"></span><button id="next">下一頁 →</button></nav>
+<script>
+(function(){
+  var s=[].slice.call(document.querySelectorAll('section')),i=0;
+  function show(n){
+    i=Math.max(0,Math.min(s.length-1,n));
+    s.forEach(function(e,k){e.classList.toggle('on',k===i)});
+    document.getElementById('pg').textContent=(i+1)+' / '+s.length;
+    document.getElementById('bar').style.width=((i+1)/s.length*100)+'%';
+    try{history.replaceState(null,'','#'+(i+1))}catch(e){}
+  }
+  document.getElementById('prev').onclick=function(){show(i-1)};
+  document.getElementById('next').onclick=function(){show(i+1)};
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();show(i+1)}
+    if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();show(i-1)}
+  });
+  var h=parseInt((location.hash||'').slice(1),10);
+  show(isNaN(h)?0:h-1);
+})();
+</script>
+</body>
+</html>
